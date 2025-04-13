@@ -9,3 +9,8 @@ A simple, RNN-based sentence emotion classification model using attention mechan
 
 ## Dataset
 The dataset used in this project is the sst2 dataset, which is a collection of movie reviews labeled with sentiment. The dataset is available at [Stanford Sentiment Treebank](https://nlp.stanford.edu/sentiment/index.html).
+
+## TODO
+- [ ] Implement Muilti-Head Attention
+- [ ] Expriment with transformer-based models
+- [ ]  Add resedual
