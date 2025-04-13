@@ -1,0 +1,8 @@
+datasets==3.5.0
+matplotlib==3.10.1
+numpy==2.2.4
+seaborn==0.13.2
+streamlit==1.44.1
+torch==2.6.0+cu126
+tqdm==4.67.1
+transformers==4.51.2
