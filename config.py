@@ -15,5 +15,6 @@ class Config:
     vocab_size = tokenizer.vocab_size
     training_examples_size = 30000
     validation_examples_size = 100
+    bidirectional_gru = True
 
 config = Config()
