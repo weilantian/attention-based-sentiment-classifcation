@@ -60,11 +60,17 @@ def train(vocab_size,embedding_dim,hidden_dim,output_dim,pad_idx,device,learning
         if val_acc > best_val_acc:
             best_val_acc = val_acc
             
-            torch.save(model.state_dict(), f"./checkpoints/{make_checkpoint_name()}.pth")
+            torch.save(model.state_dict(), f"./checkpoints/{make_checkpoint_name()}__best.pth")
 
             with open("./checkpoints/best_val_acc.txt", "w") as f:
                 f.write(str(best_val_acc))                
             print(f"Model saved to {make_checkpoint_name()}.pth")
+        else:
+            torch.save(model.state_dict(), f"./checkpoints/{make_checkpoint_name()}__last.pth")
+        # elif epoch == num_epochs - 1:
+        #     print("Training complete. Final model saved!")
+        #     torch.save(model.state_dict(), "./checkpoints/final_model.pth")
+        
 
         print()
 

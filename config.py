@@ -14,7 +14,7 @@ class Config:
     pad_idx = tokenizer.pad_token_id
     vocab_size = tokenizer.vocab_size
     training_examples_size = 30000
-    validation_examples_size = 100
+    validation_examples_size = 500
     bidirectional_gru = True
 
 config = Config()
