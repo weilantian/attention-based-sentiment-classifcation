@@ -1,49 +1,57 @@
 import torch
 from torch import optim, nn
 
+import os
 
 from data import dataset
 from torch.utils.data import DataLoader
-from config import config
+
 from models.model import SentimentClassificationModel
 from tqdm import tqdm
 from utils.utils import make_checkpoint_name
 
 
-def train():
+def train(vocab_size,embedding_dim,hidden_dim,output_dim,pad_idx,device,learning_rate,num_epochs):
     train_dataloader = DataLoader(
         dataset.train_subset, batch_size=16, shuffle=True)
     val_dataloader = DataLoader(
         dataset.val_subset, batch_size=16, shuffle=True)
     model = SentimentClassificationModel(
-        vocab_size=config.vocab_size,
-        embedding_dim=config.embedding_dim,
-        hidden_dim=config.hidden_dim,
-        output_dim=config.output_dim,
-        pad_idx=config.pad_idx,
+        vocab_size=vocab_size,
+        embedding_dim=embedding_dim,
+        hidden_dim=hidden_dim,
+        output_dim=output_dim,
+        pad_idx=pad_idx,
         bidirectional=True
     )
-    model = model.to(config.device)
+    model = model.to(device)
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(), lr=config.learning_rate)
+    optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
     best_val_acc = 0
 
-    for epoch in range(config.num_epochs):
-        print(f"Epoch {epoch+1}/{config.num_epochs}")
+    try:
+        with open("./checkpoints/best_val_acc.txt", "r") as f:
+            best_val_acc = float(f.read())
+            print(f"Best validation accuracy from file: {best_val_acc:.4f}")
+    except FileNotFoundError:
+        best_val_acc = 0
+
+    for epoch in range(num_epochs):
+        print(f"Epoch {epoch+1}/{num_epochs}")
 
         train_loss, train_acc = train_epoch(
             model,
             train_dataloader,
             optimizer,
             criterion,
-            config.device
+            device
         )
 
         val_loss, val_acc = evaluate(
             model,
             val_dataloader, criterion,
-            config.device)
+            device)
 
         print(f"Train Loss: {train_loss:.4f}, Train Accuracy: {train_acc:.4f}")
         print(
@@ -51,10 +59,15 @@ def train():
 
         if val_acc > best_val_acc:
             best_val_acc = val_acc
-            torch.save(model.state_dict(), f"{make_checkpoint_name()}.pth")
+            
+            torch.save(model.state_dict(), f"./checkpoints/{make_checkpoint_name()}.pth")
+
+            with open("./checkpoints/best_val_acc.txt", "w") as f:
+                f.write(str(best_val_acc))                
             print(f"Model saved to {make_checkpoint_name()}.pth")
 
         print()
+
 
 
 def train_epoch(model, dataloader, optimizer, criterion, device):
@@ -67,7 +80,7 @@ def train_epoch(model, dataloader, optimizer, criterion, device):
     for batch in tqdm(dataloader):
         input_ids = batch['input_ids'].to(device)
         attention_mask = batch['attention_mask'].to(device)
-        labels = batch['labels'].to(device)
+        labels = batch['label'].to(device)
 
         optimizer.zero_grad()
         outputs = model(input_ids)
@@ -100,7 +113,7 @@ def evaluate(model, dataloader, criterion, device):
             loss = criterion(outputs, labels)
 
             predictions = torch.argmax(outputs, dim=1)
-            correct_predictions += (predictions == labels).sum().item()
+            correct_predictions = (predictions == labels).sum().item()
 
             total_correct += correct_predictions
             total_predictions += labels.size(0)

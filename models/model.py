@@ -1,6 +1,6 @@
 from torch import nn
 import torch
-from attn_model import AttentionModel
+from .attn_model import AttentionModel
 
 class SentimentClassificationModel(nn.Module):
     """
@@ -23,7 +23,7 @@ class SentimentClassificationModel(nn.Module):
         self.fc2 = nn.Linear(hidden_dim, output_dim)
         self.dropout = nn.Dropout(dropout)
 
-        self.attention = AttentionModel(self.gru_output_dim, hidden_dim)
+        self.attention = AttentionModel(self.gru_output_dim, self.gru_output_dim)
 
         self.hidden_dim = hidden_dim
         self.n_layers = n_layers

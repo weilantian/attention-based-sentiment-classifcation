@@ -15,7 +15,7 @@ class AttentionModel(nn.Module):
 
 
     def forward(self,gru_output,hidden_state):
-        energy = torch.tanh(self.Wa(gru_output) + self.Ua(hidden_state))
+        energy = torch.tanh(self.Wa(gru_output) + self.Ua(hidden_state).unsqueeze(1))
         attn_weights = self.Va(energy).squeeze(2)
         attn_weights = torch.softmax(attn_weights, dim=1).unsqueeze(1)
         context = torch.bmm(attn_weights, gru_output).squeeze(1)

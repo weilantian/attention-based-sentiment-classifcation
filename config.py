@@ -1,11 +1,11 @@
-import torch
+
 
 from utils.tokenizer import tokenizer
 
 class Config:
     # If you want to use MPS (Metal Performance Shaders) on macOS, uncomment the following line
     #device = torch.device("mps") if torch.backends.mps.is_available() else "cpu"
-    device = torch.device("cuda") if torch.cuda.is_available() else "cpu"
+    device = "cuda"
     lr = 1e-3
     num_epochs = 12
     embedding_dim = 100
