@@ -11,3 +11,11 @@ _Attention heatmap visualization for a sentence containing negative sentiment_
 ## Dataset
 
 This project utilizes the SST-2 (Stanford Sentiment Treebank) dataset, which consists of movie reviews annotated with binary sentiment labels. The dataset is sourced from the [Stanford Sentiment Treebank](https://nlp.stanford.edu/sentiment/index.html).
+
+## To Run the visualization
+
+This following command can be used to run the visualization with the trained weights supplied. The sentences used for visualization can be configured under the config.py or specified under the `--sentences` argument.
+
+```bash
+python main.py visualize --checkpoint weights/2025-04-15_11-13-14__last.pth
+```
