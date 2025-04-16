@@ -113,10 +113,23 @@ def analyze_attention_patterns(model, tokenizer, sentences, device):
         # Extract attention weights
         attention = attention_weights.squeeze(0).cpu().numpy()
         
+        # Ensure attention is in the right shape
+        if len(attention.shape) == 1:
+            # If it's a 1D array, reshape to 2D
+            attention = attention.reshape(1, -1)
+        
         # Find token with maximum attention
-        max_attention_idx = np.argmax(attention)
+        if len(attention.shape) == 2:
+            flat_idx = np.argmax(attention)
+            # Convert flat index to 2D coordinates
+            row_idx, col_idx = np.unravel_index(flat_idx, attention.shape)
+            max_attention_idx = col_idx
+            max_attention_value = attention[row_idx, col_idx]
+        else:
+            max_attention_idx = np.argmax(attention)
+            max_attention_value = attention[max_attention_idx]
+            
         max_attention_token = tokens[max_attention_idx]
-        max_attention_value = attention[max_attention_idx]
         
         # Calculate mean and std of attention
         mean_attention = np.mean(attention)
