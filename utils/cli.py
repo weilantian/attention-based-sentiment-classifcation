@@ -23,7 +23,7 @@ def setup_visualization_parser(subparsers):
         type=str, 
         nargs="+", 
         help="Sentences to analyze (wrap each in quotes)",
-        default=["I love going to the beach.", "This movie was boring."]
+        default=config.visualizer_example_sentences
     )
 
     parser.add_argument(

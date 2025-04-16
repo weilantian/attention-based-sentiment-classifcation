@@ -17,4 +17,12 @@ class Config:
     validation_examples_size = 500
     bidirectional_gru = True
 
+    visualizer_example_sentences = [
+        "I love this movie. It's amazing!",
+        "This is the worst movie I've ever seen.",
+        "The plot was boring and predictable.",
+        "The acting was top-notch and the cinematography was stunning.",
+        "I wouldn't recommend this film to anyone."
+    ]
+
 config = Config()
