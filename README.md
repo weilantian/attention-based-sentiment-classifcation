@@ -75,3 +75,34 @@ python main.py visualize --checkpoint weights/2025-04-15_11-13-14__last.pth
 - **sentiment_analysis_playground.ipynb**: Interactive notebook for experimenting with the model
 - **data/dataset.py**: Loads and processes the SST-2 dataset
 - **training/trainer.py**: Handles model training and evaluation
+
+## Citation
+
+If you use this code or model in your research, please cite:
+
+```bibtex
+@misc{attention-sentiment-classifier,
+  author = {Lantian},
+  title = {Attention-based Sentiment Classification},
+  year = {2025},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/weilantian/attention-based-sentiment-classification}}
+}
+```
+
+For the SST-2 dataset:
+
+```bibtex
+@inproceedings{socher2013recursive,
+  title={Recursive deep models for semantic compositionality over a sentiment treebank},
+  author={Socher, Richard and Perelygin, Alex and Wu, Jean and Chuang, Jason and Manning, Christopher D and Ng, Andrew Y and Potts, Christopher},
+  booktitle={Proceedings of the 2013 conference on empirical methods in natural language processing},
+  pages={1631--1642},
+  year={2013}
+}
+```
+
+## License
+
+This project is licensed under the GNU General Public License v3.0 - see the LICENSE.txt file for details.
