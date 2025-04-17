@@ -52,14 +52,14 @@ class Config:
     # Example sentences with varying sentiment for visualization
     visualizer_example_sentences = [
         # Positive examples
-        "I love this movie. It's amazing!",
+        "I love this movie. It is amazing!",
         # Negative examples
-        "This is the worst movie I've ever seen.",
+        "This is the worst movie I have ever seen.",
         "The plot was boring and predictable.",
         # Positive examples with more complex structure
         "The acting was top-notch and the cinematography was stunning.",
         # Negative examples with different phrasing
-        "I wouldn't recommend this film to anyone."
+        "I would not recommend this film to anyone."
     ]
     
     # Whether to generate visualizations after each epoch during training

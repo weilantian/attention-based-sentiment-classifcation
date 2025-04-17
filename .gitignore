@@ -176,3 +176,5 @@ cython_debug/
 
 attention_visualization_*
 checkpoints
+
+visualizations
