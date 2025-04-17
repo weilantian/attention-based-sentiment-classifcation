@@ -63,6 +63,7 @@ def handle_training(args):
         device=device,
         learning_rate=args.learning_rate,
         num_epochs=args.num_epochs,
+        visualize_per_epoch=args.visualize_per_epoch,
     )
 
 def main():

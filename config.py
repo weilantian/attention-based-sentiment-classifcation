@@ -61,6 +61,9 @@ class Config:
         # Negative examples with different phrasing
         "I wouldn't recommend this film to anyone."
     ]
+    
+    # Whether to generate visualizations after each epoch during training
+    visualize_per_epoch = False
 
 # Create a singleton instance of the configuration
 config = Config()

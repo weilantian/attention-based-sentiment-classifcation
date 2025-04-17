@@ -2,6 +2,7 @@ import torch
 from torch import optim, nn
 
 import os
+from datetime import datetime
 
 from data import dataset
 from torch.utils.data import DataLoader
@@ -9,9 +10,12 @@ from torch.utils.data import DataLoader
 from models.model import SentimentClassificationModel
 from tqdm import tqdm
 from utils.utils import make_checkpoint_name
+from visualization.attention_viz import visualize_multiple_examples
+from utils.tokenizer import tokenizer
+from config import config
 
 
-def train(vocab_size,embedding_dim,hidden_dim,output_dim,pad_idx,device,learning_rate,num_epochs):
+def train(vocab_size, embedding_dim, hidden_dim, output_dim, pad_idx, device, learning_rate, num_epochs, visualize_per_epoch=False):
     train_dataloader = DataLoader(
         dataset.train_subset, batch_size=16, shuffle=True)
     val_dataloader = DataLoader(
@@ -67,10 +71,22 @@ def train(vocab_size,embedding_dim,hidden_dim,output_dim,pad_idx,device,learning
             print(f"Model saved to {make_checkpoint_name()}.pth")
         else:
             torch.save(model.state_dict(), f"./checkpoints/{make_checkpoint_name()}__last.pth")
-        # elif epoch == num_epochs - 1:
-        #     print("Training complete. Final model saved!")
-        #     torch.save(model.state_dict(), "./checkpoints/final_model.pth")
         
+        # Generate visualizations if enabled
+        if visualize_per_epoch:
+            os.makedirs("./visualizations", exist_ok=True)
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            viz_output_file = f"./visualizations/epoch_{epoch+1}_{timestamp}.png"
+            print(f"Generating attention visualizations for epoch {epoch+1}...")
+            visualize_multiple_examples(
+                model,
+                tokenizer,
+                config.visualizer_example_sentences,
+                device,
+                figsize=(15, 4*len(config.visualizer_example_sentences)),
+                output_file=viz_output_file
+            )
+            print(f"Visualizations saved to {viz_output_file}")
 
         print()
 

@@ -124,6 +124,13 @@ def setup_training_parser(subparsers):
         default=config.num_epochs,
         help="Number of epochs to train the model"
     )
+    
+    parser.add_argument(
+        "--visualize_per_epoch",
+        action="store_true",
+        default=config.visualize_per_epoch,
+        help="Generate attention visualizations after each training epoch"
+    )
 
     return parser
 
